@@ -17,13 +17,13 @@ wb = xlwt.Workbook()
 sh = wb.add_sheet('电影')
 # 写入数据 到单元格 定位
 sh.write(0, 0, '你好，李焕英')
-sh.write(0, 1, '1亿')
+sh.write(0, 1, '1')
 
 sh.write(1, 0, '复仇者联盟')
-sh.write(1, 1, '1亿')
+sh.write(1, 1, '1')
 
 sh.write(2, 0, '夏洛特烦恼')
-sh.write(2, 1, '1亿')
+sh.write(2, 1, '1')
 
 # 保存excel
 wb.save('电影文件.xlsx')
