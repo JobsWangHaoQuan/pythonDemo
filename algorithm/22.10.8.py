@@ -44,7 +44,6 @@ class GameField(object):
         self.spawn()
         self.spawn()
 
-
     def move(self, direction):
         # 实现某一行的左移
         # 把某一行的所有非0元素同一压缩到左边
@@ -106,15 +105,15 @@ class GameField(object):
 
     def draw(self, screen):
         help_string1 = '(W)Up (S)Down (A)Left (D)Right'
-        help_string2 = '(R)Restart (Q)Exit'
-        gameover_string = 'GAME OVER'
-        win_string = '        YOU WIN!'
+        help_string2 = '     (R)Restart (Q)Exit'
+        gameover_string = '           GAME OVER'
+        win_string = '          YOU WIN!'
 
         def cast(string):
-            screen.addstr(string+'\n')
+            screen.addstr(string+'          ')
 
         def draw_hor_separator():
-            line = "+" + ('+-------' * self.width + '+')[1:]
+            line = "+" + ('+------' * self.width + '+')[1:]
             separator = defaultdict(lambda : line)
             if not hasattr(draw_hor_separator, "counter"):
                 draw_hor_separator.counter = 0
@@ -122,7 +121,7 @@ class GameField(object):
             draw_hor_separator.counter += 1
 
         def draw_row(row):
-            cast(' '.join('|{:^5}'.format(num) if num > 0 else '|     ' for num in row) +'|')
+            cast(''.join('|{:^5}'.format(num) if num > 0 else '|      ' for num in row) +'|')
 
         screen.clear()
         cast('SCORE:' + str(self.score))
@@ -144,7 +143,7 @@ class GameField(object):
     #随机产生某一个位置的数字
     def spawn(self):
         new_element = 4 if randrange(100) > 89 else 2
-        (i, j) = choice([i, j] for i in range(self.width) for j in  range(self.height) if self.field[i][j] == 0)
+        (i,j) = choice([(i,j) for i in range(self.width) for j in range(self.height) if self.field[i][j] == 0])
         self.field[i][j] = new_element
 
     def move_is_possible(self, direction):
