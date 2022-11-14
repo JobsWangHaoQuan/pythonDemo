@@ -21,7 +21,7 @@ def get_dataset(args):
             if args.unequal:
                 raise NotImplementedError()
             else:
-                user_groups = cifar_iid(train_dataset, args.num_users)
+                user_groups = cifar_noniid(train_dataset, args.num_users)
 
     elif args.dataset == 'mnist' or 'fmnist':
         if args.dataset == 'mnist':
@@ -41,4 +41,30 @@ def get_dataset(args):
             else:
                 user_groups = mnist_noniid(train_dataset, args.num_users)
     return train_dataset, test_dataset, user_groups
+
+def average_weights(w):
+    w_avg = copy.deepcopy(w[0])
+    for key in w_avg.keys():
+        for i in range(1, len(w)):
+            w_avg[key] += w[i][key]
+        w_avg[key] = torch.div(w_avg[key], len(w))
+    return  w_avg
+
+def exp_details(args):
+    print('\nExperimental details:')
+    print(f'     Model     :{args.model}')
+    print(f'     Optimizer :{args.optimizer}')
+    print(f'     Learning  :{args.lr}')
+    print(f'     Global Rounds   :{args.epochs}\n')
+
+    print('      Federated parameters   :')
+
+    if args.iid:
+        print('    IID')
+    else:
+        print('    Non-IID')
+    print(f'    Fraction of users  :{args.frac}')
+    print(f'    Local Batch size   :{args.local_bs}')
+    print(f'    Local Epochs       :{args.local_ep}')
+    return
 
